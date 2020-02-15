@@ -20,6 +20,7 @@ pygame.display.set_caption('Snake AI')
 snake = Snake()
  
 snake.intial_movement()
+snake.create_fruit()
 
 clock = pygame.time.Clock()
 

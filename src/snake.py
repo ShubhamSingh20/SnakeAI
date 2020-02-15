@@ -1,4 +1,5 @@
 import pygame
+from fruit import Fruit
 from global_vars import (
     Color, Segment, Screen
 )
@@ -32,6 +33,11 @@ class Snake(object):
         self.screen_wdith = Screen.SCREEN_WIDTH
         self.screen_height = Screen.SCREEN_HEIGTH
         self.allspriteslist = pygame.sprite.Group()
+    
+    def create_fruit(self):
+        x_cor = [seg.rect.x for seg in self.snake_segments]
+        y_cor = [seg.rect.y for seg in self.snake_segments]
+        self.allspriteslist.add(Fruit(x_cor, y_cor))
     
     def intial_movement(self):
         for i in range(15):
@@ -70,6 +76,7 @@ class Snake(object):
         )
    
     def check_collision(self):
+        print(self.allspriteslist)
         return (self.check_body_collision() or self.check_boundry_collision())
 
 
