@@ -22,11 +22,12 @@ class Fruit(FruitSegment):
     
     def get_random_not_in_list(self, cor_list, screen_res):
         while True:
-            tmp = randrange(0, screen_res)
+            tmp = randrange(Segment.DIFF, screen_res - Segment.DIFF * 2, Segment.DIFF)
             if tmp not in cor_list:
                 return tmp
 
     def __init__(self, snake_x, snake_y):
         x = self.get_random_not_in_list(snake_x, Screen.SCREEN_WIDTH)
         y = self.get_random_not_in_list(snake_y, Screen.SCREEN_HEIGTH)
+        print(x,y)
         super().__init__(x, y)

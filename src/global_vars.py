@@ -6,10 +6,12 @@ class Color:
     DARKGRAY  = (40, 40, 40)
 
 class Segment:
-    SEGMENT_HEIGHT = 15
-    SEGMENT_WDITH = 15
-    SEGMENT_MARGIN = 3
+    X_START = 300
+    Y_START = 30
+    SEGMENT_HEIGHT = 20
+    SEGMENT_WDITH = 20
+    DIFF = 15
 
 class Screen:
-    SCREEN_HEIGTH = 600 
+    SCREEN_HEIGTH = 800 
     SCREEN_WIDTH = 800

@@ -27,9 +27,11 @@ class Snake(object):
 
     def __init__(self):
         self.score = 0
+        self.fruit = None
         self.highest_score = 0
-        self.snake_segments = []
         self.direction = "right"
+        self.snake_len = 15
+        self.snake_segments = []
         self.screen_wdith = Screen.SCREEN_WIDTH
         self.screen_height = Screen.SCREEN_HEIGTH
         self.allspriteslist = pygame.sprite.Group()
@@ -37,12 +39,13 @@ class Snake(object):
     def create_fruit(self):
         x_cor = [seg.rect.x for seg in self.snake_segments]
         y_cor = [seg.rect.y for seg in self.snake_segments]
-        self.allspriteslist.add(Fruit(x_cor, y_cor))
+        self.fruit = Fruit(x_cor, y_cor)
+        self.allspriteslist.add(self.fruit)
     
     def intial_movement(self):
-        for i in range(15):
-            x = 250 - (Segment.SEGMENT_WDITH + Segment.SEGMENT_MARGIN) * i
-            y = 30
+        for i in range(self.snake_len):
+            x = Segment.X_START - Segment.DIFF * i
+            y = Segment.Y_START
             segment = SnakeSegment(x, y)
             self.snake_segments.append(segment)
             self.allspriteslist.add(segment)
@@ -63,21 +66,29 @@ class Snake(object):
 
     def check_body_collision(self):
         snake_head = self.snake_segments[0]
-        for seg in self.snake_segments[1:]:
-            if snake_head.rect.colliderect(seg.rect):
+        for i,seg in enumerate(self.snake_segments[1:]):
+            if snake_head.rect.x == seg.rect.x and snake_head.rect.y == seg.rect.y:
                 return True
         return False
     
     def check_boundry_collision(self):
         snake_head = self.snake_segments[0]
         return (
-            abs(snake_head.rect.x) >= Screen.SCREEN_WIDTH or snake_head.rect.x < 0 or \
-            abs(snake_head.rect.y) >= Screen.SCREEN_HEIGTH or snake_head.rect.y < 0
+            abs(snake_head.rect.x) >= Screen.SCREEN_WIDTH or snake_head.rect.x <= 0 or \
+            abs(snake_head.rect.y) >= Screen.SCREEN_HEIGTH or snake_head.rect.y <= 0
         )
    
     def check_collision(self):
-        print(self.allspriteslist)
         return (self.check_body_collision() or self.check_boundry_collision())
+    
+    def ate_fruit(self):
+        snake_head = self.snake_segments[0]
+        return (
+            snake_head.rect.x == self.fruit.rect.x and \
+            snake_head.rect.y == self.fruit.rect.y
+        )
+    
+
 
 
  
