@@ -1,6 +1,9 @@
 from snake import Snake
 from global_vars import Color, Screen, Segment
 import pygame
+import time
+
+TRAIN = True
 
 # Set initial speed
 x_change = Segment.DIFF
@@ -28,8 +31,6 @@ clock = pygame.time.Clock()
 done = False
  
 while not done:
-    pygame.display.flip()
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -56,7 +57,12 @@ while not done:
     snake.insert_new_segment(x_change, y_change)
 
     if snake.check_collision():
-        print("")
+        if TRAIN:
+            snake.reset_life()
+            snake.intial_movement()
+            continue
+        else:
+            done = True
 
     if snake.ate_fruit():
         snake.give_point()
@@ -81,6 +87,14 @@ while not done:
     highest_score_rect = highest_score_surface.get_rect(topleft=(500, 10))
     screen.blit(highest_score_surface, highest_score_rect)
 
+    # EPoch Text
+    epoch_surface = myfont.render(
+        "Training Epoch: {0}".format(snake.epoch), True, Color.YELLOW
+    )
+    epoch_rect = epoch_surface.get_rect(bottomleft=(250, 680))
+    screen.blit(epoch_surface, epoch_rect)
+
+    pygame.display.flip()
     clock.tick(20) # Framerate
  
 pygame.quit()

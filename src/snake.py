@@ -21,14 +21,11 @@ class Snake(object):
     def __init__(self):
         self.score = 0
         self.fruit = None
-        self.highest_score = 0
-        self.direction = "right"
         self.snake_len = 15
+        self.direction = "right"
         self.snake_segments = []
-        self.screen_wdith = Screen.SCREEN_WIDTH
-        self.screen_height = Screen.SCREEN_HEIGTH
         self.allspriteslist = pygame.sprite.Group()
-    
+
     def create_fruit(self):
         x_cor = [seg.rect.x for seg in self.snake_segments]
         y_cor = [seg.rect.y for seg in self.snake_segments]
@@ -86,9 +83,10 @@ class Snake(object):
     
     def give_point(self):
         self.score += 1
-        if self.score > self.highest_score:
-            self.highest_score = self.score
         self.snake_len += 1
 
         self.remove_fruit()
         self.create_fruit()
+    
+    def is_alive(self):
+        return not self.check_collision()
