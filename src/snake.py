@@ -3,7 +3,7 @@ from global_vars import (
     Color, SegmentGlobal, Screen
 )
 
-class Segment(pygame.sprite.Sprite):
+class SnakeSegment(pygame.sprite.Sprite):
     """ Class to represent one segment of the snake. """
     # -- Methods
     # Constructor function
@@ -37,7 +37,7 @@ class Snake(object):
         for i in range(15):
             x = 250 - (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN) * i
             y = 30
-            segment = Segment(x, y)
+            segment = SnakeSegment(x, y)
             self.snake_segments.append(segment)
             self.allspriteslist.add(segment)
 
@@ -51,7 +51,7 @@ class Snake(object):
     def insert_new_segment(self, x_change, y_change):
         x = self.snake_segments[0].rect.x + x_change
         y = self.snake_segments[0].rect.y + y_change
-        segment = Segment(x, y)
+        segment = SnakeSegment(x, y)
         self.snake_segments.insert(0, segment)
         self.allspriteslist.add(segment)
 
