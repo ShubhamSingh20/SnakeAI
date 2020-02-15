@@ -11,7 +11,7 @@ pygame.init()
  
 # Create an 800x600 sized screen
 screen = pygame.display.set_mode([
-    Screen.SCREEN_HEIGTH, Screen.SCREEN_WIDTH
+    Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGTH
 ])
  
 # Set the title of the window
@@ -35,15 +35,19 @@ while not done:
         # segment, plus the margin.
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
+                snake.direction = "left"
                 x_change = (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN) * -1
                 y_change = 0
             if event.key == pygame.K_RIGHT:
+                snake.direction = "right"
                 x_change = (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN)
                 y_change = 0
             if event.key == pygame.K_UP:
+                snake.direction = "up"
                 x_change = 0
                 y_change = (SegmentGlobal.SEGMENT_HEIGHT + SegmentGlobal.SEGMENT_MARGIN) * -1
             if event.key == pygame.K_DOWN:
+                snake.direction = "down"
                 x_change = 0
                 y_change = (SegmentGlobal.SEGMENT_HEIGHT + SegmentGlobal.SEGMENT_MARGIN)
  

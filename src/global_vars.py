@@ -10,5 +10,5 @@ class SegmentGlobal:
     SEGMENT_MARGIN = 3
 
 class Screen:
-    SCREEN_HEIGTH = 800 
-    SCREEN_WIDTH = 600
+    SCREEN_HEIGTH = 600 
+    SCREEN_WIDTH = 800

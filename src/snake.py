@@ -28,6 +28,7 @@ class Snake(object):
         self.score = 0
         self.highest_score = 0
         self.snake_segments = []
+        self.direction = "right"
         self.screen_wdith = Screen.SCREEN_WIDTH
         self.screen_height = Screen.SCREEN_HEIGTH
         self.allspriteslist = pygame.sprite.Group()
@@ -53,13 +54,24 @@ class Snake(object):
         segment = Segment(x, y)
         self.snake_segments.insert(0, segment)
         self.allspriteslist.add(segment)
-    
-    def check_collision(self):
+
+    def check_body_collision(self):
         snake_head = self.snake_segments[0]
         for seg in self.snake_segments[1:]:
             if snake_head.rect.colliderect(seg.rect):
                 return True
         return False
+    
+    def check_boundry_collision(self):
+        snake_head = self.snake_segments[0]
+        return (
+            abs(snake_head.rect.x) >= Screen.SCREEN_WIDTH or snake_head.rect.x < 0 or \
+            abs(snake_head.rect.y) >= Screen.SCREEN_HEIGTH or snake_head.rect.y < 0
+        )
+   
+    def check_collision(self):
+        return (self.check_body_collision() or self.check_boundry_collision())
+
 
  
 
