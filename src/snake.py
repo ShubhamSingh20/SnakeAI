@@ -5,19 +5,12 @@ from global_vars import (
 )
 
 class SnakeSegment(pygame.sprite.Sprite):
-    """ Class to represent one segment of the snake. """
-    # -- Methods
-    # Constructor function
     def __init__(self, x, y):
-        # Call the parent's constructor
         super().__init__()
-        # Set height, width
         self.image = pygame.Surface([
             Segment.SEGMENT_HEIGHT, Segment.SEGMENT_WDITH
         ])
         self.image.fill(Color.WHITE)
- 
-        # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -87,12 +80,3 @@ class Snake(object):
             snake_head.rect.x == self.fruit.rect.x and \
             snake_head.rect.y == self.fruit.rect.y
         )
-    
-
-
-
- 
-
-
-
-        

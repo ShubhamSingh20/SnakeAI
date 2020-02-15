@@ -16,6 +16,7 @@ screen = pygame.display.set_mode([
  
 # Set the title of the window
 pygame.display.set_caption('Snake AI')
+myfont = pygame.font.SysFont("times new roman", 24)
 
 snake = Snake()
  
@@ -27,13 +28,12 @@ clock = pygame.time.Clock()
 done = False
  
 while not done:
+    pygame.display.flip()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
- 
-        # Set the speed based on the key pressed
-        # We want the speed to be enough that we move a full
-        # segment, plus the margin.
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT and snake.direction != "right":
                 snake.direction = "left"
@@ -62,8 +62,24 @@ while not done:
         print("yep")
     
     screen.fill(Color.BLACK)
+
+    # Draw snake over black canvas
     snake.draw(screen)
-    pygame.display.flip()
+
+    # Score Text
+    score_surface = myfont.render(
+        "Score: {0}".format(snake.score), True, Color.DARKGREEN
+    )
+    score_rect = score_surface.get_rect(topleft=(10, 10))
+    screen.blit(score_surface, score_rect)
+
+    # Highest Score Text
+    highest_score_surface = myfont.render(
+        "Highest Score: {0}".format(snake.highest_score), True, Color.DARKGREEN
+    )
+    highest_score_rect = highest_score_surface.get_rect(topleft=(500, 10))
+    screen.blit(highest_score_surface, highest_score_rect)
+
     clock.tick(20) # Framerate
  
 pygame.quit()

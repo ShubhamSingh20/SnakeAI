@@ -13,5 +13,5 @@ class Segment:
     DIFF = 15
 
 class Screen:
-    SCREEN_HEIGTH = 800 
-    SCREEN_WIDTH = 800
+    SCREEN_HEIGTH = 700 
+    SCREEN_WIDTH = 700
