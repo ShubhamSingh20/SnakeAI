@@ -34,19 +34,19 @@ while not done:
         # We want the speed to be enough that we move a full
         # segment, plus the margin.
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT and snake.direction != "right":
                 snake.direction = "left"
                 x_change = (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN) * -1
                 y_change = 0
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT and snake.direction != "left":
                 snake.direction = "right"
                 x_change = (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN)
                 y_change = 0
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP and snake.direction != "down":
                 snake.direction = "up"
                 x_change = 0
                 y_change = (SegmentGlobal.SEGMENT_HEIGHT + SegmentGlobal.SEGMENT_MARGIN) * -1
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN and snake.direction != "up":
                 snake.direction = "down"
                 x_change = 0
                 y_change = (SegmentGlobal.SEGMENT_HEIGHT + SegmentGlobal.SEGMENT_MARGIN)
