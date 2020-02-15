@@ -1,9 +1,9 @@
 from snake import Snake
-from global_vars import Color, Screen, SegmentGlobal
+from global_vars import Color, Screen, Segment
 import pygame
 
 # Set initial speed
-x_change = SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN
+x_change = Segment.SEGMENT_WDITH + Segment.SEGMENT_MARGIN
 y_change = 0
  
 # Call this function so the Pygame library can initialize itself
@@ -36,22 +36,20 @@ while not done:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT and snake.direction != "right":
                 snake.direction = "left"
-                x_change = (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN) * -1
+                x_change = (Segment.SEGMENT_WDITH + Segment.SEGMENT_MARGIN) * -1
                 y_change = 0
             if event.key == pygame.K_RIGHT and snake.direction != "left":
                 snake.direction = "right"
-                x_change = (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN)
+                x_change = (Segment.SEGMENT_WDITH + Segment.SEGMENT_MARGIN)
                 y_change = 0
             if event.key == pygame.K_UP and snake.direction != "down":
                 snake.direction = "up"
                 x_change = 0
-                y_change = (SegmentGlobal.SEGMENT_HEIGHT + SegmentGlobal.SEGMENT_MARGIN) * -1
+                y_change = (Segment.SEGMENT_HEIGHT + Segment.SEGMENT_MARGIN) * -1
             if event.key == pygame.K_DOWN and snake.direction != "up":
                 snake.direction = "down"
                 x_change = 0
-                y_change = (SegmentGlobal.SEGMENT_HEIGHT + SegmentGlobal.SEGMENT_MARGIN)
- 
-    
+                y_change = (Segment.SEGMENT_HEIGHT + Segment.SEGMENT_MARGIN)
 
     snake.remove_old_segment()
     snake.insert_new_segment(x_change, y_change)

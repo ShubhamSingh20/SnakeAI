@@ -1,6 +1,6 @@
 import pygame
 from global_vars import (
-    Color, SegmentGlobal, Screen
+    Color, Segment, Screen
 )
 
 class SnakeSegment(pygame.sprite.Sprite):
@@ -12,7 +12,7 @@ class SnakeSegment(pygame.sprite.Sprite):
         super().__init__()
         # Set height, width
         self.image = pygame.Surface([
-            SegmentGlobal.SEGMENT_HEIGHT, SegmentGlobal.SEGMENT_WDITH
+            Segment.SEGMENT_HEIGHT, Segment.SEGMENT_WDITH
         ])
         self.image.fill(Color.WHITE)
  
@@ -35,7 +35,7 @@ class Snake(object):
     
     def intial_movement(self):
         for i in range(15):
-            x = 250 - (SegmentGlobal.SEGMENT_WDITH + SegmentGlobal.SEGMENT_MARGIN) * i
+            x = 250 - (Segment.SEGMENT_WDITH + Segment.SEGMENT_MARGIN) * i
             y = 30
             segment = SnakeSegment(x, y)
             self.snake_segments.append(segment)
