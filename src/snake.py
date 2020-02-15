@@ -35,6 +35,9 @@ class Snake(object):
         self.fruit = Fruit(x_cor, y_cor)
         self.allspriteslist.add(self.fruit)
     
+    def remove_fruit(self):
+        self.allspriteslist.remove(self.fruit)
+    
     def intial_movement(self):
         for i in range(self.snake_len):
             x = Segment.X_START - Segment.DIFF * i
@@ -80,3 +83,12 @@ class Snake(object):
             snake_head.rect.x == self.fruit.rect.x and \
             snake_head.rect.y == self.fruit.rect.y
         )
+    
+    def give_point(self):
+        self.score += 1
+        if self.score > self.highest_score:
+            self.highest_score = self.score
+        self.snake_len += 1
+
+        self.remove_fruit()
+        self.create_fruit()

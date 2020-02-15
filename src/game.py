@@ -56,10 +56,11 @@ while not done:
     snake.insert_new_segment(x_change, y_change)
 
     if snake.check_collision():
-        print("collision")
+        print("")
 
     if snake.ate_fruit():
-        print("yep")
+        snake.give_point()
+        snake.insert_new_segment(x_change, y_change)
     
     screen.fill(Color.BLACK)
 
