@@ -56,6 +56,10 @@ class Snake(object):
         segment = SnakeSegment(x, y)
         self.snake_segments.insert(0, segment)
         self.allspriteslist.add(segment)
+    
+    def move(self, x_change, y_change):
+        self.remove_old_segment()
+        self.insert_new_segment(x_change, y_change)
 
     def check_body_collision(self):
         snake_head = self.snake_segments[0]
@@ -73,6 +77,9 @@ class Snake(object):
    
     def check_collision(self):
         return (self.check_body_collision() or self.check_boundry_collision())
+
+    def is_alive(self):
+        return not self.check_collision()
     
     def ate_fruit(self):
         snake_head = self.snake_segments[0]
@@ -88,5 +95,3 @@ class Snake(object):
         self.remove_fruit()
         self.create_fruit()
     
-    def is_alive(self):
-        return not self.check_collision()
