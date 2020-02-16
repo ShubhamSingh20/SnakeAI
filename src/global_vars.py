@@ -1,4 +1,4 @@
-TRAIN = False
+COMPUTER_TRAIN = False
 
 class Color:
     BLACK = (0, 0, 0)

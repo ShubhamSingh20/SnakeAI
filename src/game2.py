@@ -1,6 +1,6 @@
 from snake import Snake
 from global_vars import (
-    Color, Screen, Segment, TRAIN
+    Color, Screen, Segment, COMPUTER_TRAIN
 )
 import pygame
 import time
@@ -32,7 +32,7 @@ while not done:
     epoch += 1
 
     while snake_is_alive and not done:
-        if TRAIN:
+        if COMPUTER_TRAIN:
             pass
         else:
             for event in pygame.event.get():
@@ -42,19 +42,23 @@ while not done:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT and snake.direction != "right":
                         snake.direction = "left"
-                        snake.move(Segment.DIFF * -1, 0)
+                        x_change, y_change = Segment.DIFF * -1, 0
+                        snake.move(x_change, y_change)
 
                     elif event.key == pygame.K_RIGHT and snake.direction != "left":
                         snake.direction = "right"
-                        snake.move(Segment.DIFF, 0)
+                        x_change, y_change = Segment.DIFF, 0
+                        snake.move(x_change, y_change)
 
                     elif event.key == pygame.K_UP and snake.direction != "down":
                         snake.direction = "up"
-                        snake.move(0, Segment.DIFF * -1)
+                        x_change, y_change = 0, Segment.DIFF * -1
+                        snake.move(x_change, y_change)
 
                     elif event.key == pygame.K_DOWN and snake.direction != "up":
                         snake.direction = "down"
-                        snake.move(0, Segment.DIFF)
+                        x_change, y_change = 0, Segment.DIFF
+                        snake.move(x_change, y_change)
             else:
                 # continue previous movement if no event is provided
                 snake.move(x_change, y_change)
