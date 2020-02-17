@@ -1,5 +1,6 @@
 import pygame
 from fruit import Fruit
+from env import Env
 from global_vars import (
     Color, Segment, Screen
 )
@@ -80,7 +81,7 @@ class Snake(object):
 
     def is_alive(self):
         return not self.check_collision()
-    
+
     def ate_fruit(self):
         snake_head = self.snake_segments[0]
         return (
@@ -88,10 +89,20 @@ class Snake(object):
             snake_head.rect.y == self.fruit.rect.y
         )
     
-    def give_point(self):
+    def give_point(self, change_fruit=True):
         self.score += 1
         self.snake_len += 1
 
-        self.remove_fruit()
-        self.create_fruit()
+        if change_fruit:
+            # new fruit on new location
+            self.remove_fruit()
+            self.create_fruit()
+
+    def get_dist_fruit(self):
+        snake_head = self.snake_segments[0]
+        return (
+            abs(snake_head.rect.x - self.fruit.rect.x),
+            abs(snake_head.rect.y - self.fruit.rect.y)
+        )
+
     
