@@ -1,8 +1,10 @@
-import pygame
+
 from fruit import Fruit
 from global_vars import (
     Color, Segment, Screen
 )
+import numpy as np
+import pygame
 
 class SnakeSegment(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -25,6 +27,20 @@ class Snake(object):
         self.direction = "right"
         self.snake_segments = []
         self.allspriteslist = pygame.sprite.Group()
+    
+    def get_position(self):
+        cor = [[seg.rect.x, seg.rect.y] for seg in self.snake_segments]
+        return cor
+
+    def get_head_position(self):
+        cor = self.snake_segments[0].rect
+        return [cor.x, cor.y]
+    
+    def fruit_distance(self):
+        return np.linalg.norm(
+            np.array(self.fruit.get_fruit_position()) - \
+                np.array(self.get_head_position())
+        )
 
     def create_fruit(self):
         x_cor = [seg.rect.x for seg in self.snake_segments]

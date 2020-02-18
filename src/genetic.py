@@ -12,6 +12,10 @@ class DisplayTrainingSimulation:
 
 class GeneticAlgorithm(DisplayTrainingSimulation):
     def play_game_with_population(self, population):
+        """
+            population will be used as the weights to
+            nerual network
+        """
         pass
 
     def calculate_population_fitness(self, population):

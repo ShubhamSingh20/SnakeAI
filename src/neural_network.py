@@ -23,6 +23,9 @@ def sigmoid(z):
 
 
 def forward_propagation(X, individual):
+    """
+        This model will be used to predict the direction of the snake
+    """
     W1, W2, W3 = get_weights_from_encoded(individual)
 
     Z1 = np.matmul(W1, X.T)

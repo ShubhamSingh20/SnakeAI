@@ -29,3 +29,6 @@ class Fruit(FruitSegment):
         x = self.get_random_not_in_list(snake_x, Screen.SCREEN_WIDTH)
         y = self.get_random_not_in_list(snake_y, Screen.SCREEN_HEIGTH)
         super().__init__(x, y)
+    
+    def get_fruit_position(self):
+        return [self.rect.x, self.rect.y]
