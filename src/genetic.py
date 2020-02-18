@@ -9,7 +9,8 @@ import numpy as np
 import random
 
 class DisplayTrainingSimulation:
-    pass
+    def __init__(self):
+        super().__init__()
 
 class GeneticAlgorithm(DisplayTrainingSimulation):
     def play_game_with_population(self, epoch, population):
@@ -22,7 +23,7 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
             # snake intialization goes here.
             snake = Snake()
             x_change, y_change = Segment.DIFF, 0
-            count_same_direction = 0
+            count_same_direction, reward = 0, 0
             snake.create_fruit()
             snake.intial_movement()
             snake_is_alive = True
@@ -64,7 +65,15 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                 else:
                     count_same_direction = 0
                     snake.move(predicted_direction)
+                
+                if not snake.is_alive():
+                    reward += -150
+                    break
 
+                reward += 0
+
+
+            del snake.allspriteslist, snake.fruit, snake
 
     def calculate_population_fitness(self, population):
         fitness = []

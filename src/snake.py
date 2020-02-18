@@ -101,22 +101,29 @@ class Snake(object):
         self.remove_old_segment()
         self.insert_new_segment()
 
-    def check_body_collision(self):
-        snake_head = self.snake_segments[0]
-        for i,seg in enumerate(self.snake_segments[1:]):
+    def check_body_collision(self, snake_segments=None):
+        if snake_segments is None:
+            snake_segments = self.snake_segments
+        snake_head = snake_segments[0]
+        for i, seg in enumerate(snake_segments[1:]):
             if snake_head.rect.x == seg.rect.x and snake_head.rect.y == seg.rect.y:
                 return True
         return False
     
-    def check_boundry_collision(self):
-        snake_head = self.snake_segments[0]
+    def check_boundry_collision(self, snake_segments=None):
+        if snake_segments is None:
+            snake_segments = self.snake_segments
+        snake_head = snake_segments[0]
         return (
             abs(snake_head.rect.x) >= Screen.SCREEN_WIDTH or snake_head.rect.x <= 0 or \
             abs(snake_head.rect.y) >= Screen.SCREEN_HEIGTH or snake_head.rect.y <= 0
         )
    
-    def check_collision(self):
-        return (self.check_body_collision() or self.check_boundry_collision())
+    def check_collision(self, snake_segments=None):
+        return (
+            self.check_body_collision(snake_segments) or 
+            self.check_boundry_collision(snake_segments)
+        )
 
     def is_alive(self):
         return not self.check_collision()
@@ -144,21 +151,44 @@ class Snake(object):
             abs(snake_head.rect.y - self.fruit.rect.y)
         )
 
-    def soft_move(self):
+    def soft_move(self, direction=None):
         """
             Doesn't actually move the snakes just returns the 
             next coordinates of snake head for a given move
         """
-        pass
+        if direction is None:
+            direction = self.direction
+
+        if direction == 'left':
+            x_change, y_change = Segment.DIFF * -1, 0
+
+        if direction == 'right':
+            x_change, y_change = Segment.DIFF, 0
+        
+        if direction == 'up':
+            x_change, y_change = 0, Segment.DIFF * -1
+        
+        if direction == 'down':
+            x_change, y_change = 0, Segment.DIFF
+        
+        temp_segment = [
+            [i[0] + x_change, i[1] + y_change] for i in  self.get_position() 
+        ]
+
+        return temp_segment
     
     def is_direction_blocked(self, direction):
-        pass
-
+        snake_segments = self.soft_move(direction)
+        return self.check_collision(snake_segments)
 
     def blocked_directions_vector(self):
         """
-            returns the vector in order [current, front, left, right]
+            returns the vector in order [front, left, right]
         """
-        pass
+        return [
+            self.is_direction_blocked('front'),
+            self.is_direction_blocked('left'),
+            self.is_direction_blocked('right'),
+        ]
 
     
