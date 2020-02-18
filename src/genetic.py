@@ -69,9 +69,8 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                 if not snake.is_alive():
                     reward += -150
                     break
-
-                reward += 0
-
+                else:
+                    reward += 0
 
             del snake.allspriteslist, snake.fruit, snake
 

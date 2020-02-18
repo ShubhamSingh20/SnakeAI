@@ -1,4 +1,3 @@
-
 from fruit import Fruit
 from global_vars import (
     Color, Segment, Screen
