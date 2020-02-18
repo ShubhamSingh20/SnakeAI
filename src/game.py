@@ -1,7 +1,5 @@
 from snake import Snake
-from global_vars import (
-    Color, Screen, Segment, COMPUTER_TRAIN, Q_LEARN
-)
+from global_vars import *
 from qlearning import get_q_table
 import numpy as np
 import pygame
@@ -50,6 +48,7 @@ while not done:
     while snake_is_alive and not done:
         if COMPUTER_TRAIN:
             observation = (snake.get_dist_fruit())
+
             if np.random.random() > Q_LEARN.EPSILON:
                 action = np.argmax(q_table[observation])
                 action = action_direction[action]

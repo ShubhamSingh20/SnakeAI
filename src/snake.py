@@ -1,6 +1,5 @@
 import pygame
 from fruit import Fruit
-from env import Env
 from global_vars import (
     Color, Segment, Screen
 )
