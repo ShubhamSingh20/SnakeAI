@@ -9,7 +9,27 @@
 276
 """
 
-COMPUTER_TRAIN = True
+COMPUTER_TRAIN = False
+class GENETIC:
+    n_x = 7 # inputs like direction of fruit, snake and blocked
+    n_h = 9
+    n_h2 = 15
+    n_y = 3 # where to move left, current, right
+
+    SOL_PER_POP = 50
+    NUM_WEIGHTS = (
+        GENETIC.n_x* GENETIC.n_h + \
+        GENETIC. n_h* GENETIC.n_h2 + \
+        GENETIC.n_h2* GENETIC.n_y
+    )
+    STEPS_PER_GAME = 2500
+    NUM_GEN = 100
+    NUM_PARENT_MATING = 12 
+    POPULATION_SIZE = (
+        GENETIC.SOL_PER_POP, 
+        GENETIC.NUM_WEIGHTS
+    )
+
 
 class Q_LEARN:
     ACTION_SIZE = 4
@@ -23,6 +43,7 @@ class Q_LEARN:
     DISCOUNT = 0.95
     Q_TABLE_FILENAME = None
 
+
 class Color:
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
@@ -31,6 +52,7 @@ class Color:
     YELLOW = (255, 255, 0)
     DARKGRAY  = (40, 40, 40)
 
+
 class Segment:
     X_START = 300
     Y_START = 300
@@ -38,15 +60,17 @@ class Segment:
     SEGMENT_WDITH = 20
     DIFF = 15
 
+
 class Screen:
     SCREEN_HEIGTH = 500 
     SCREEN_WIDTH = 500
 
+
 class NeuralNetwork:
-    HIDDEN_UNITS = (32, 16)
-    NETWORK_LR = 0.01
-    BATCH_SIZE = 64
-    UPDATE_EVERY = 5
-    GAMMA = 0.95
-    epsilon, eps_min, eps_decay = 1, 0.05, 0.9997
-    NUM_EPISODES = 10000    #number of episodes to train
+    n_x = 7
+    n_h = 9
+    n_h2 = 15
+    n_y = 3
+    W1_shape = (9,7)
+    W2_shape = (15,9)
+    W3_shape = (3,15)

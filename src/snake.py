@@ -104,4 +104,21 @@ class Snake(object):
             abs(snake_head.rect.y - self.fruit.rect.y)
         )
 
+    def soft_move(self):
+        """
+            Doesn't actually move the snakes just returns the 
+            next coordinates of snake head for a given move
+        """
+        pass
+    
+    def is_direction_blocked(self, direction):
+        pass
+
+
+    def blocked_directions_vector(self):
+        """
+            returns the vector in order [current, front, left, right]
+        """
+        pass
+
     
