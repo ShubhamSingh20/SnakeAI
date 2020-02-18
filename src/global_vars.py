@@ -10,6 +10,7 @@
 """
 
 COMPUTER_TRAIN = False
+
 class GENETIC:
     n_x = 7 # inputs like direction of fruit, snake and blocked
     n_h = 9
@@ -23,6 +24,7 @@ class GENETIC:
         GENETIC.n_h2* GENETIC.n_y
     )
     STEPS_PER_GAME = 2500
+    TESTS_PER_GAME = 1
     NUM_GEN = 100
     NUM_PARENT_MATING = 12 
     POPULATION_SIZE = (

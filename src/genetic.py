@@ -2,8 +2,9 @@ from utils import (
     setup_game, update_score_text, 
     update_epoch_text, update_highest_score_text
 )
+from neural_network import forward_propagation
 from global_vars import GENETIC, Segment
-
+from snake import Snake
 import numpy as np
 import random
 
@@ -11,17 +12,64 @@ class DisplayTrainingSimulation:
     pass
 
 class GeneticAlgorithm(DisplayTrainingSimulation):
-    def play_game_with_population(self, population):
+    def play_game_with_population(self, epoch, population):
         """
-            population will be used as the weights to
+            population will be used as the weights to the
             nerual network
         """
-        pass
+        for _ in range(GENETIC.TESTS_PER_GAME):
+            # Number of games to playper population
+            # snake intialization goes here.
+            snake = Snake()
+            x_change, y_change = Segment.DIFF, 0
+            count_same_direction = 0
+            snake.create_fruit()
+            snake.intial_movement()
+            snake_is_alive = True
+
+            for _ in range(GENETIC.STEPS_PER_GAME):
+                # Maximum numbers of moves which are allowed to be made 
+                # or just die, most of the time snake will die before hitting
+                # this limit.
+
+                current_direction_vector, is_front_blocked, \
+                    is_left_blocked, is_right_blocked = snake.blocked_directions_vector()
+
+                angle, snake_direction_vector, apple_direction_vector_normalized,\
+                    snake_direction_vector_normalized = snake.get_angle_to_fruit()
+                
+                predictions = []
+
+                def get_direction_prediction():
+                    direction = np.argmax(np.array(forward_propagation(np.array([
+                        is_left_blocked, is_front_blocked, is_right_blocked, 
+                        apple_direction_vector_normalized[0], snake_direction_vector_normalized[0],
+                        apple_direction_vector_normalized[1], snake_direction_vector_normalized[1]
+                    ]).reshape(-1, 7), population))) - 1
+
+                    if direction == 0:
+                        return 'left'
+
+                    if direction == 2: 
+                        return snake.direction
+
+                    if direction == 2:
+                        return 'right'
+                    
+
+                predicted_direction = get_direction_prediction()
+
+                if predicted_direction == snake.direction:
+                    count_same_direction += 1
+                else:
+                    count_same_direction = 0
+                    snake.direction = predicted_direction # TODO change the working principle of snake.move
+
 
     def calculate_population_fitness(self, population):
         fitness = []
         for i in range(population.shape[0]):
-            fit = self.play_game_with_population(population[i])
+            fit = self.play_game_with_population(1+i, population[i])
             fitness.append(fit)
         return np.array(fitness)
 
@@ -32,7 +80,7 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
             max_fitness_idx = np.where(fitness == np.max(fitness))
             max_fitness_idx = max_fitness_idx[0][0]
             parents[parent_num, :] = population[max_fitness_idx, :]
-            fitness[max_fitness_idx] = -99999999
+            fitness[max_fitness_idx] = -10**8
         return parents
     
     def generation_crossover(self, parents, offspring_size):

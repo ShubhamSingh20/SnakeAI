@@ -24,6 +24,8 @@ class Snake(object):
         self.score = 0
         self.fruit = None
         self.snake_len = 15
+        self.y_change = 0
+        self.x_change = Segment.DIFF
         self.direction = "right"
         self.snake_segments = []
         self.allspriteslist = pygame.sprite.Group()
@@ -36,11 +38,14 @@ class Snake(object):
         cor = self.snake_segments[0].rect
         return [cor.x, cor.y]
     
-    def fruit_distance(self):
+    def get_fruit_distance(self):
         return np.linalg.norm(
             np.array(self.fruit.get_fruit_position()) - \
                 np.array(self.get_head_position())
         )
+    
+    def get_angle_to_fruit(self):
+        pass
 
     def create_fruit(self):
         x_cor = [seg.rect.x for seg in self.snake_segments]
