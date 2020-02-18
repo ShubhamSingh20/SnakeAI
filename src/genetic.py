@@ -63,7 +63,7 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                     count_same_direction += 1
                 else:
                     count_same_direction = 0
-                    snake.direction = predicted_direction # TODO change the working principle of snake.move
+                    snake.move(predicted_direction)
 
 
     def calculate_population_fitness(self, population):

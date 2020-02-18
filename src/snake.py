@@ -71,16 +71,35 @@ class Snake(object):
         old_segment = self.snake_segments.pop()
         self.allspriteslist.remove(old_segment)
 
-    def insert_new_segment(self, x_change, y_change):
-        x = self.snake_segments[0].rect.x + x_change
-        y = self.snake_segments[0].rect.y + y_change
+    def insert_new_segment(self):
+        x = self.snake_segments[0].rect.x + self.x_change
+        y = self.snake_segments[0].rect.y + self.y_change
         segment = SnakeSegment(x, y)
         self.snake_segments.insert(0, segment)
         self.allspriteslist.add(segment)
     
-    def move(self, x_change, y_change):
+    def move(self, direction=None):
+        if direction is None:
+            direction = self.direction
+
+        if direction == 'left':
+            self.direction = direction
+            self.x_change, self.y_change = Segment.DIFF * -1, 0
+
+        if direction == 'right':
+            self.direction = direction
+            self.x_change, self.y_change = Segment.DIFF, 0
+        
+        if direction == 'up':
+            self.direction = direction
+            self.x_change, self.y_change = 0, Segment.DIFF * -1
+        
+        if direction == 'down':
+            self.direction = direction
+            self.x_change, self.y_change = 0, Segment.DIFF
+        
         self.remove_old_segment()
-        self.insert_new_segment(x_change, y_change)
+        self.insert_new_segment()
 
     def check_body_collision(self):
         snake_head = self.snake_segments[0]

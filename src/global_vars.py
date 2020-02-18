@@ -19,17 +19,17 @@ class GENETIC:
 
     SOL_PER_POP = 50
     NUM_WEIGHTS = (
-        GENETIC.n_x* GENETIC.n_h + \
-        GENETIC. n_h* GENETIC.n_h2 + \
-        GENETIC.n_h2* GENETIC.n_y
+        n_x* n_h + \
+        n_h* n_h2 + \
+        n_h2* n_y
     )
     STEPS_PER_GAME = 2500
     TESTS_PER_GAME = 1
     NUM_GEN = 100
     NUM_PARENT_MATING = 12 
     POPULATION_SIZE = (
-        GENETIC.SOL_PER_POP, 
-        GENETIC.NUM_WEIGHTS
+        SOL_PER_POP, 
+        NUM_WEIGHTS
     )
 
 

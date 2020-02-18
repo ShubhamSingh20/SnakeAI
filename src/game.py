@@ -29,34 +29,26 @@ def play_game_by_user():
                 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT and snake.direction != "right":
-                        snake.direction = "left"
-                        x_change, y_change = Segment.DIFF * -1, 0
-                        snake.move(x_change, y_change)
+                        snake.move('left')
 
                     elif event.key == pygame.K_RIGHT and snake.direction != "left":
-                        snake.direction = "right"
-                        x_change, y_change = Segment.DIFF, 0
-                        snake.move(x_change, y_change)
+                        snake.move('right')
 
                     elif event.key == pygame.K_UP and snake.direction != "down":
-                        snake.direction = "up"
-                        x_change, y_change = 0, Segment.DIFF * -1
-                        snake.move(x_change, y_change)
+                        snake.move('up')
 
                     elif event.key == pygame.K_DOWN and snake.direction != "up":
-                        snake.direction = "down"
-                        x_change, y_change = 0, Segment.DIFF
-                        snake.move(x_change, y_change)
+                        snake.move('down')
             else:
                 # continue previous movement if no event is provided
-                snake.move(x_change, y_change)
+                snake.move()
 
             if not snake.is_alive():
                 snake_is_alive = False
 
             if snake.ate_fruit():
                 snake.give_point(change_fruit=True)
-                snake.insert_new_segment(x_change, y_change)
+                snake.insert_new_segment()
                 
                 if snake.score > highest_score:
                     highest_score = snake.score
