@@ -45,6 +45,36 @@ class Snake(object):
                 np.array(self.get_head_position())
         )
     
+    def get_relative_direction(self, relative_direction):
+
+        if self.direction == 'left':
+            if relative_direction == 'left':
+                return 'up'
+
+            if relative_direction == 'right':
+                return 'down'
+
+        if self.direction == 'right':
+            if relative_direction == 'left':
+                return 'down'
+
+            if relative_direction == 'right':
+                return 'up'
+        
+        if self.direction == 'up':
+            if relative_direction == 'left':
+                return 'left'
+
+            if relative_direction == 'right':
+                return 'right'
+        
+        if self.direction == 'down':
+            if relative_direction == 'left':
+                return 'right'
+
+            if relative_direction == 'right':
+                return 'left'
+
     def get_angle_with_fruit(self):
         fruit_direction_vector = np.array(self.fruit.get_fruit_position()) \
             - np.array(self.get_head_position())
@@ -81,8 +111,6 @@ class Snake(object):
             angle, snake_direction_vector, fruit_direction_vector_normalized, 
             snake_direction_vector_normalized
         )
-        
-
 
     def create_fruit(self):
         x_cor = [seg.rect.x for seg in self.snake_segments]

@@ -54,6 +54,7 @@ class DisplayTrainingSimulation:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                    exit()
 
 
 class GeneticAlgorithm(DisplayTrainingSimulation):
@@ -67,11 +68,9 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
             # Number of games to playper population
             # snake intialization goes here.
             snake = Snake()
-            x_change, y_change = Segment.DIFF, 0
             count_same_direction = 0
             snake.create_fruit()
             snake.intial_movement()
-            snake_is_alive = True
 
             for _ in range(GENETIC.STEPS_PER_GAME):
                 # Maximum numbers of moves which are allowed to be made 
@@ -94,25 +93,28 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                         fruit_direction_vector_normalized[1], snake_direction_vector_normalized[1]
                     ]).reshape(-1, 7), population))) - 1
 
-                    print(direction)
+                    direction = direction.tolist()
+
                     if direction == -1:
-                        return 'left'
+                        return snake.get_relative_direction('left')
 
                     if direction == 0: 
-                        return snake.direction
+                        return snake.get_relative_direction(snake.direction)
 
                     if direction == 1:
-                        return 'right'
+                        return snake.get_relative_direction('right')
                     
 
                 predicted_direction = get_direction_prediction()
 
                 if predicted_direction == snake.direction:
                     count_same_direction += 1
+                    snake.move()
                 else:
                     count_same_direction = 0
                     snake.move(predicted_direction)
                 
+                print("[{} |_angle {}]".format(predicted_direction, angle))
                 self.display_snake(snake, epoch, max_score)
                 
                 if not snake.is_alive():
@@ -128,8 +130,7 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                     score -= 1
                 else:
                     score += 2
-                
-                print(angle)
+
             del snake.allspriteslist, snake.fruit, snake
             pygame.time.delay(400)
 
