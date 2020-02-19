@@ -19,24 +19,18 @@ class DisplayTrainingSimulation:
         self.clock = pygame.time.Clock()
         self.screen, self.myfont = setup_game()
         self.start_ticks = pygame.time.get_ticks()
+        self.highest_score = 0
     
-    def display_snake(self, snake, epoch, highest_score):
-        def __init__(self):
-            super().__init__()
-
-        if snake.ate_fruit():
-            snake.give_point(change_fruit=True)
-            snake.insert_new_segment()
-        
+    def display_snake(self, snake, epoch): 
         self.screen.fill(Color.BLACK)
         snake.draw(self.screen)
-
+            
         update_score_text(
             self.screen, self.myfont, "Score: {0}".format(snake.score)
         )
         update_highest_score_text(
             self.screen, self.myfont,
-            "Highest Score: {0}".format(highest_score)
+            "Highest Score: {0}".format(self.highest_score)
         )
 
         run_time = (pygame.time.get_ticks()-self.start_ticks) / 1000
@@ -44,7 +38,7 @@ class DisplayTrainingSimulation:
 
         update_epoch_text(
             self.screen, self.myfont,
-            "Training Epoch: {0} ({1})".format(epoch,  run_time)
+            "Training Generation: {0} ({1})".format(epoch,  run_time)
         )
 
         pygame.display.flip()
@@ -99,11 +93,10 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                         return snake.get_relative_direction('left')
 
                     if direction == 0: 
-                        return snake.get_relative_direction(snake.direction)
+                        return snake.direction
 
                     if direction == 1:
                         return snake.get_relative_direction('right')
-                    
 
                 predicted_direction = get_direction_prediction()
 
@@ -115,7 +108,16 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                     snake.move(predicted_direction)
                 
                 print("[{} |_angle {}]".format(predicted_direction, angle))
-                self.display_snake(snake, epoch, max_score)
+
+                if snake.ate_fruit():
+                    reward_score += 30
+                    snake.give_point(change_fruit=True)
+                    snake.insert_new_segment()
+                
+                if self.highest_score < highest_score:
+                    self.highest_score = highest_score
+
+                self.display_snake(snake, epoch)
                 
                 if not snake.is_alive():
                     reward_score += -150 # deduct
@@ -136,10 +138,10 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
 
         return reward_score + score + max_score * 5_000
 
-    def calculate_population_fitness(self, population):
+    def calculate_population_fitness(self, population, epoch):
         fitness = []
         for i in range(population.shape[0]):
-            fit = self.play_game_with_population(1+i, population[i])
+            fit = self.play_game_with_population(epoch, population[i])
             fitness.append(fit)
         return np.array(fitness)
 
@@ -198,7 +200,7 @@ class TrainSnake(GeneticAlgorithm):
 
     def training_generation(self):
         for generation in range(GENETIC.NUM_GEN):
-            fitness = self.calculate_population_fitness(self.new_population)
+            fitness = self.calculate_population_fitness(self.new_population, generation+1)
             parents = self.select_mating_pool(self.new_population, fitness)
             offspring_crossover = self.generation_crossover(
                 parents, (GENETIC.SOL_PER_POP - parents.shape[0], GENETIC.NUM_WEIGHTS)

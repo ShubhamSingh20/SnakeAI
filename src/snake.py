@@ -24,7 +24,7 @@ class Snake(object):
     def __init__(self):
         self.score = 0
         self.fruit = None
-        self.snake_len = 15
+        self.snake_len = 5
         self.y_change = 0
         self.x_change = Segment.DIFF
         self.direction = "right"
@@ -238,11 +238,16 @@ class Snake(object):
         if direction == 'down':
             x_change, y_change = 0, Segment.DIFF
         
-        temp_segment = [
-            SnakeSegment(i[0] + x_change, i[1] + y_change) for i in  self.get_position() 
+        temp_segment = self.get_position()
+
+        # update head coordinates
+        temp_segment[0] = [temp_segment[0][0] + x_change, temp_segment[0][1] + y_change] 
+
+        temp_snake_segment = [
+            SnakeSegment(i[0], i[1]) for i in  temp_segment 
         ]
 
-        return temp_segment
+        return temp_snake_segment
     
     def is_direction_blocked(self, direction):
         snake_segments = self.soft_move(direction)
@@ -253,9 +258,9 @@ class Snake(object):
             returns the vector in order [front, left, right]
         """
         return [
-            self.is_direction_blocked('front'),
-            self.is_direction_blocked('left'),
-            self.is_direction_blocked('right'),
+            self.is_direction_blocked(self.direction),
+            self.is_direction_blocked(self.get_relative_direction('left')),
+            self.is_direction_blocked(self.get_relative_direction('right')),
         ]
 
     
