@@ -114,8 +114,8 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                     snake.give_point(change_fruit=True)
                     snake.insert_new_segment()
                 
-                if self.highest_score < highest_score:
-                    self.highest_score = highest_score
+                if self.highest_score < max_score:
+                    self.highest_score = max_score
 
                 self.display_snake(snake, epoch)
                 
