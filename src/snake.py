@@ -4,6 +4,8 @@ from global_vars import (
 )
 import numpy as np
 import pygame
+import math
+
 
 class SnakeSegment(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -43,8 +45,44 @@ class Snake(object):
                 np.array(self.get_head_position())
         )
     
-    def get_angle_to_fruit(self):
-        pass
+    def get_angle_with_fruit(self):
+        fruit_direction_vector = np.array(self.fruit.get_fruit_position()) \
+            - np.array(self.get_head_position())
+        
+        snake_pos = self.get_position()
+        snake_direction_vector = np.array(snake_pos[0]) - np.array(snake_pos[1])
+
+        norm_of_fruit_direction_vector = np.linalg.norm(fruit_direction_vector)
+        norm_of_snake_direction_vector = np.linalg.norm(snake_direction_vector)
+
+        if norm_of_fruit_direction_vector == 0:
+            norm_of_fruit_direction_vector = 10
+
+        if norm_of_snake_direction_vector == 0:
+            norm_of_snake_direction_vector = 10
+        
+        fruit_direction_vector_normalized = fruit_direction_vector / \
+            norm_of_fruit_direction_vector
+
+        snake_direction_vector_normalized = snake_direction_vector / \
+            norm_of_snake_direction_vector
+
+        angle = math.atan2(
+            fruit_direction_vector_normalized[1] * snake_direction_vector_normalized[0] \
+                - fruit_direction_vector_normalized[0] * snake_direction_vector_normalized[1],
+            
+            fruit_direction_vector_normalized[1] * snake_direction_vector_normalized[1] + \
+                fruit_direction_vector_normalized[0] * snake_direction_vector_normalized[0]
+        )
+
+        angle = angle / math.pi
+
+        return (
+            angle, snake_direction_vector, fruit_direction_vector_normalized, 
+            snake_direction_vector_normalized
+        )
+        
+
 
     def create_fruit(self):
         x_cor = [seg.rect.x for seg in self.snake_segments]
@@ -155,6 +193,8 @@ class Snake(object):
             Doesn't actually move the snakes just returns the 
             next coordinates of snake head for a given move
         """
+        x_change, y_change = 0, 0
+
         if direction is None:
             direction = self.direction
 
@@ -171,7 +211,7 @@ class Snake(object):
             x_change, y_change = 0, Segment.DIFF
         
         temp_segment = [
-            [i[0] + x_change, i[1] + y_change] for i in  self.get_position() 
+            SnakeSegment(i[0] + x_change, i[1] + y_change) for i in  self.get_position() 
         ]
 
         return temp_segment

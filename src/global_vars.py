@@ -9,7 +9,7 @@
 276
 """
 
-COMPUTER_TRAIN = False
+COMPUTER_TRAIN = True
 
 class GENETIC:
     n_x = 7 # inputs like direction of fruit, snake and blocked
