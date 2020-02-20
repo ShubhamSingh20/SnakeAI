@@ -57,7 +57,7 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
             population will be used as the weights to the
             nerual network
         """
-        reward_score, score, max_score = 0, 0, 0
+        reward_score, score, max_score, count_eat, ini = 0, 0, 0, 0, 0
         for _ in range(GENETIC.TESTS_PER_GAME):
             # Number of games to playper population
             # snake intialization goes here.
@@ -71,14 +71,13 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                 # or just die, most of the time snake will die before hitting
                 # this limit.
 
+                ini += 1 # how many times it's ran for given population
                 self.kill_simulation()
                 is_front_blocked, is_left_blocked, \
                     is_right_blocked = snake.blocked_directions_vector()
 
                 angle, snake_direction_vector, fruit_direction_vector_normalized,\
                     snake_direction_vector_normalized = snake.get_angle_with_fruit()
-                
-                predictions = []
 
                 def get_direction_prediction():
                     direction = np.argmax(np.array(forward_propagation(np.array([
@@ -99,6 +98,8 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                         return snake.get_relative_direction('right')
 
                 predicted_direction = get_direction_prediction()
+                snake_dist_fruit_before_move = snake.get_dist_fruit()
+                prev_direction = snake.direction
 
                 if predicted_direction == snake.direction:
                     count_same_direction += 1
@@ -106,10 +107,11 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                 else:
                     count_same_direction = 0
                     snake.move(predicted_direction)
-                
-                print("[{} |_angle {}]".format(predicted_direction, angle))
+
+                snake_dist_fruit_after_move = snake.get_dist_fruit()
 
                 if snake.ate_fruit():
+                    count_eat += 1 # how many times did snakes in this population eat
                     reward_score += 30
                     snake.give_point(change_fruit=True)
                     snake.insert_new_segment()
@@ -120,23 +122,31 @@ class GeneticAlgorithm(DisplayTrainingSimulation):
                 self.display_snake(snake, epoch)
                 
                 if not snake.is_alive():
-                    reward_score += -150 # deduct
+                    reward_score += -120 # deduct
                     break
-                else:
-                    reward_score += 0
                 
+                if snake_dist_fruit_after_move < snake_dist_fruit_before_move:
+                    score += 20
+                else:
+                    score += -50
+
                 if snake.score > max_score:
                     max_score = snake.score
 
-                if count_same_direction > 8 and predicted_direction != snake.direction:
-                    score -= 1
+                if count_same_direction > 8 and predicted_direction != prev_direction:
+                    score += -30
                 else:
-                    score += 2
+                    score += 10
+
+                print("[{} |_angle {} <before {} : after {}>]".format(
+                    predicted_direction, angle, 
+                    snake_dist_fruit_before_move,snake_dist_fruit_after_move
+                ))
 
             del snake.allspriteslist, snake.fruit, snake
             pygame.time.delay(400)
 
-        return reward_score + score + max_score * 5_000
+        return reward_score + score + abs(count_eat/ini) * 1_000
 
     def calculate_population_fitness(self, population, epoch):
         fitness = []

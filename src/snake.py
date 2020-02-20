@@ -211,10 +211,11 @@ class Snake(object):
 
     def get_dist_fruit(self):
         snake_head = self.snake_segments[0]
-        return (
-            abs(snake_head.rect.x - self.fruit.rect.x),
-            abs(snake_head.rect.y - self.fruit.rect.y)
-        )
+        dist = (snake_head.rect.x - self.fruit.rect.x)**2 + \
+            (snake_head.rect.y - self.fruit.rect.y)**2
+
+        dist = math.sqrt(dist)
+        return dist
 
     def soft_move(self, direction=None):
         """
