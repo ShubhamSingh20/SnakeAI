@@ -12,3 +12,6 @@ Different action carries distinct, rewards and punishments are assigned for perf
 | eating fruit | dying |
 | not repeating similar move patterns| repeating moves in loop|
 |covering more area| covering less area|
+
+## Game Highlights
+![](docs/game.gif)
