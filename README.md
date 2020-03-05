@@ -3,6 +3,12 @@
 This project is built using pygame and utilizes Neural Networks and genetic algorithm which is used for teaching the agent (snake controller)
 how to play snake.
 
+
+## Game Highlights
+![](docs/game.gif)
+
+
+## Rewards during Game Play
 Different action carries distinct, rewards and punishments are assigned for performing certain actions. Such as the following:
 
 | Rewards   | Punishments | 
@@ -12,6 +18,3 @@ Different action carries distinct, rewards and punishments are assigned for perf
 | eating fruit | dying |
 | not repeating similar move patterns| repeating moves in loop|
 |covering more area| covering less area|
-
-## Game Highlights
-![](docs/game.gif)
